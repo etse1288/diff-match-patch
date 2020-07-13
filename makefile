@@ -25,7 +25,7 @@ lint:
 
 test:
 	python -m unittest -v diff_match_patch.tests
-	python -m mypy diff_match_patch/diff_match_patch.py
+	if python -V | grep -v "2.7"; then python -m mypy diff_match_patch/diff_match_patch.py; fi
 
 clean:
 	rm -rf build dist html README MANIFEST *.egg-info
