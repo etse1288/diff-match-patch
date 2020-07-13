@@ -16,6 +16,8 @@ setup(
     version=version,
     author="Neil Fraser",
     author_email="fraser@google.com",
+    maintainer="John Reese",
+    maintainer_email="john@noswap.com",
     url="https://github.com/diff-match-patch-python/diff-match-patch",
     classifiers=[
         "Development Status :: 6 - Mature",
@@ -33,6 +35,7 @@ setup(
     ],
     license="Apache",
     packages=["diff_match_patch", "diff_match_patch.tests"],
+    python_requires=">=2.7",
     setup_requires=["setuptools>=38.6.0"],
     install_requires=[],
 )
