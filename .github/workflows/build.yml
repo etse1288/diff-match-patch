@@ -32,4 +32,4 @@ jobs:
         run: make test
       - name: Lint
         run: make lint
-        if: ${{ matrix.python-version != "2.7" && matrix.python-version != "3.5" }}
+        if: ${{ matrix.python-version != 2.7 && matrix.python-version != 3.5 }}
