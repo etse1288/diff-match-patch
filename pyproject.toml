@@ -45,6 +45,7 @@ exclude = [
 [tool.attribution]
 name = "diff-match-patch"
 package = "diff_match_patch"
+ignored_authors = ["dependabot"]
 signed_tags = true
 version_file = true
 
