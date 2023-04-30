@@ -2,8 +2,8 @@
 
 Google's [Diff Match and Patch][DMP] library, packaged for modern Python.
 
-[![build status](https://travis-ci.org/diff-match-patch-python/diff-match-patch.svg?branch=master)](https://travis-ci.org/diff-match-patch-python/diff-match-patch)
 [![version](https://img.shields.io/pypi/v/diff-match-patch.svg)](https://pypi.org/project/diff-match-patch)
+[![changelog](https://img.shields.io/badge/change-log-blue)](https://github.com/diff-match-patch-python/diff-match-patch/blob/main/CHANGELOG.md)
 [![license](https://img.shields.io/pypi/l/diff-match-patch.svg)](https://github.com/diff-match-patch-python/diff-match-patch/blob/master/LICENSE)
 
 ## Install

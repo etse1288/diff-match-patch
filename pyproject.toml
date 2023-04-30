@@ -35,6 +35,7 @@ dev = [
 
 [project.urls]
 Github = "https://github.com/diff-match-patch-python/diff-match-patch"
+Changelog = "https://github.com/diff-match-patch-python/diff-match-patch/blob/main/CHANGELOG.md"
 
 [tool.flit.sdist]
 exclude = [
