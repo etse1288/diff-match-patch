@@ -18,9 +18,9 @@ member of the Python packaging ecosystem. The
 library will be periodically updated with changes
 from the upstream project. 
 
-Since August 2024, Google's diff_match_patch 
+Since August 2024, Google's diff-match-patch 
 library is archived, but there is a 
-[maintained][diff-match-patch-maintained] fork.
+[maintained fork][diff-match-patch-maintained].
 
 If you would like to contribute fixes or 
 improvements to the library itself, and not the 
