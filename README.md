@@ -2,7 +2,8 @@
 
 Google's [Diff Match and Patch][DMP] library, packaged for modern Python.
 
-Since August 2024, this project will now track the [maintained fork][diff-match-patch-maintained].
+Since August 2024, Googles diff-match-patch library is archived, and 
+this project will now track the [maintained fork][diff-match-patch-maintained].
 
 [![version](https://img.shields.io/pypi/v/diff-match-patch.svg)](https://pypi.org/project/diff-match-patch)
 [![changelog](https://img.shields.io/badge/change-log-blue)](https://github.com/diff-match-patch-python/diff-match-patch/blob/main/CHANGELOG.md)
