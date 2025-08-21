@@ -1163,7 +1163,7 @@ class diff_match_patch:
         """
         text = []
         for op, data in diffs:
-            if op != self.DIFF_INSERT:
+            if op != self.DIFF_INSERT and data[0] != "\x01":
                 text.append(data)
         return "".join(text)
 
@@ -1178,7 +1178,7 @@ class diff_match_patch:
         """
         text = []
         for op, data in diffs:
-            if op != self.DIFF_DELETE:
+            if op != self.DIFF_DELETE and data[0] != "\x01":
                 text.append(data)
         return "".join(text)
 
@@ -1689,6 +1689,7 @@ class diff_match_patch:
                     text2 = text[start_loc : start_loc + len(text1)]
                 else:
                     text2 = text[start_loc : end_loc + self.Match_MaxBits]
+                
                 if text1 == text2:
                     # Perfect match, just shove the replacement text in.
                     text = (
@@ -1696,39 +1697,55 @@ class diff_match_patch:
                         + self.diff_text2(patch.diffs)
                         + text[start_loc + len(text1) :]
                     )
-                else:
-                    # Imperfect match.
-                    # Run a diff to get a framework of equivalent indices.
-                    diffs = self.diff_main(text1, text2, False)
-                    if (
-                        len(text1) > self.Match_MaxBits
-                        and self.diff_levenshtein(diffs) / float(len(text1))
-                        > self.Patch_DeleteThreshold
-                    ):
-                        # The end points match, but the content is unacceptably bad.
-                        results[-1] = False
-                    else:
-                        self.diff_cleanupSemanticLossless(diffs)
-                        index1 = 0
-                        for op, data in patch.diffs:
-                            if op != self.DIFF_EQUAL:
-                                index2 = self.diff_xIndex(diffs, index1)
-                            if op == self.DIFF_INSERT:  # Insertion
-                                text = (
-                                    text[: start_loc + index2]
-                                    + data
-                                    + text[start_loc + index2 :]
-                                )
-                            elif op == self.DIFF_DELETE:  # Deletion
-                                text = (
-                                    text[: start_loc + index2]
-                                    + text[
-                                        start_loc
-                                        + self.diff_xIndex(diffs, index1 + len(data)) :
-                                    ]
-                                )
-                            if op != self.DIFF_DELETE:
-                                index1 += len(data)
+                    continue
+                
+                # compare text1 and text2 ignoring number of spaces. multiple spaces are treated as one.
+                text1a = re.sub(r"\s+", " ", text1)
+                text2a = re.sub(r"\s+", " ", text2)
+                # compare 2 text first n characters, n is the shorter length of text1 and text2
+                n = min(len(text1a), len(text2a))
+                if text1a[:n] == text2a[:n]:
+                    text = (
+                        text[:start_loc]
+                        + self.diff_text2(patch.diffs)
+                        + text[start_loc + len(text1) :]
+                    )
+                    continue
+                    
+                # Imperfect match.
+                # Run a diff to get a framework of equivalent indices.
+                diffs = self.diff_main(text1, text2, False)
+                if (
+                    len(text1) > self.Match_MaxBits
+                    and self.diff_levenshtein(diffs) / float(len(text1))
+                    > self.Patch_DeleteThreshold
+                ):
+                    # The end points match, but the content is unacceptably bad.
+                    results[-1] = False
+                    continue
+                
+                self.diff_cleanupSemanticLossless(diffs)
+                index1 = 0
+                for op, data in patch.diffs:
+                    if op != self.DIFF_EQUAL:
+                        index2 = self.diff_xIndex(diffs, index1)
+                    if op == self.DIFF_INSERT:  # Insertion
+                        text = (
+                            text[: start_loc + index2]
+                            + data
+                            + text[start_loc + index2 :]
+                        )
+                    elif op == self.DIFF_DELETE:  # Deletion
+                        text = (
+                            text[: start_loc + index2]
+                            + text[
+                                start_loc
+                                + self.diff_xIndex(diffs, index1 + len(data)) :
+                            ]
+                        )
+                    if op != self.DIFF_DELETE:
+                        index1 += len(data)
+                        
         # Strip the padding off.
         text = text[len(nullPadding) : -len(nullPadding)]
         return (text, results)
